@@ -1,20 +1,21 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var sqlite3 = require('sqlite3').verbose()
+let createError = require('http-errors');
+let express = require('express');
+let path = require('path');
+let cookieParser = require('cookie-parser');
+let logger = require('morgan');
+let sqlite3 = require('sqlite3').verbose()
+let bodyParser = require('body-parser')
 
-var db = new sqlite3.Database('test.db')
+let db = new sqlite3.Database('test.db')
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var dataRouter = require('./routes/data');
-var dbRouter = require('./routes/db');
+let indexRouter = require('./routes/index');
+let usersRouter = require('./routes/users');
+let dataRouter = require('./routes/data');
+let dbRouter = require('./routes/db');
 
-var dbGetUsersRouter = require('./routes/db_get_users');
+let dbGetUsersRouter = require('./routes/db_get_users');
 
-var app = express();
+let app = express();
 
 // db start up
 db.serialize(() => {
@@ -37,6 +38,9 @@ app.use('/users', usersRouter);
 app.use('/express_backend', dataRouter);
 app.use('/db_test', dbRouter);
 app.use('/db_get_users', dbGetUsersRouter);
+
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

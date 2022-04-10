@@ -1,11 +1,11 @@
 const sqlite3 = require('sqlite3').verbose()
 const db = new sqlite3.Database('test.db')
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 
 router.get('/', function(req, res, next) {
 	db.serialize(() => {
-		var last;
+		let last;
 		//const full = db.prepare('SELECT rowid as ID FROM user');
 
 		const stmt = db.prepare('INSERT INTO user (login, password) VALUES (@login, @password)')
@@ -19,6 +19,7 @@ router.get('/', function(req, res, next) {
 		})*/
 	})
 
+	db.close();
 	res.send({express: 'DB SOMETHING'});
 });
 
