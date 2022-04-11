@@ -3,12 +3,13 @@ let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
-let bodyParser = require('body-parser')
+let bodyParser = require('body-parser');
+let db = require('./database/database');
+
 
 let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
 let dataRouter = require('./routes/data');
-
 let app = express();
 
 // view engine setup
