@@ -22,34 +22,40 @@ router.get('/', (req, res, next) => {
 	});
 });
 
-/* GET user by id */
-router.get('/:id', (req, res, next) => {
-	let sqlQuerry = 'SELECT * from user WHERE id = ?'
-	let params = [req.params.id]
+/* GET authorization by nickname and password */
+router.get('/:nickname&:password', (req, res, next) => {
+	let sqlQuerry = 'SELECT * FROM user WHERE nickname = ? AND password = ?'
+	let params = [req.params.nickname, req.params.password]
 
-	db.get(sqlQuerry, params, (err, row) => {
+	db.get(sqlQuerry, params, function (err, row) {
 		if (err) {
 			res.status(400).json({"error": err.message})
 			return;
 		}
 
-		res.json({
-			"message": "success",
-			"data": row
-		});
+		if (!row) {
+			res.json({
+				"message": "failure"
+			});
+		} else {
+			res.json({
+				"message": "success",
+				"data": row
+			});
+		}
 	});
 });
 
 /* POST (create) user */
 router.post("/", jsonParser, (req, res, next) => {
 	let data = {
-		name: req.body.name,
+		nickname: req.body.nickname,
 		email: req.body.email,
 		password: req.body.password
 	}
 
-	let sqlQuerry = `INSERT INTO user (name, email, password) VALUES (?, ?, ?)`
-	let params = [data.name, data.email, data.password]
+	let sqlQuerry = `INSERT INTO user (nickname, email, password) VALUES (?, ?, ?)`
+	let params = [data.nickname, data.email, data.password]
 
 	db.run(sqlQuerry, params, function (err, result) {
 		if (err) {
