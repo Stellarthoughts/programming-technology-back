@@ -10,6 +10,8 @@ let db = require('./database/database');
 let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
 let dataRouter = require('./routes/data');
+let tasksRouter = require('./routes/tasks')
+
 let app = express();
 
 // view engine setup
@@ -25,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/express_backend', dataRouter);
+app.use('/tasks',tasksRouter);
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
