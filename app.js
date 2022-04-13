@@ -6,7 +6,6 @@ let logger = require('morgan');
 let bodyParser = require('body-parser');
 let db = require('./database/database');
 
-
 let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
 let dataRouter = require('./routes/data');

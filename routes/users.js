@@ -6,10 +6,10 @@ let jsonParser = bodyParser.json()
 
 /* GET users listing. */
 router.get('/', (req, res, next) => {
-  let sqlQuerry = 'SELECT * from user'
+  let sqlQuery = 'SELECT * FROM user'
 	let params = []
 
-	db.all(sqlQuerry, params, (err, rows) => {
+	db.all(sqlQuery, params, (err, rows) => {
 		if (err) {
 			res.status(400).json({"error": err.message})
 			return;
@@ -23,11 +23,11 @@ router.get('/', (req, res, next) => {
 });
 
 /* GET authorization by nickname and password */
-router.get('/:nickname&:password', (req, res, next) => {
-	let sqlQuerry = 'SELECT * FROM user WHERE nickname = ? AND password = ?'
-	let params = [req.params.nickname, req.params.password]
+router.get('/:login&:password', (req, res, next) => {
+	let sqlQuery = 'SELECT * FROM user WHERE login = ? AND password = ?'
+	let params = [req.params.login, req.params.password]
 
-	db.get(sqlQuerry, params, function (err, row) {
+	db.get(sqlQuery, params, function (err, row) {
 		if (err) {
 			res.status(400).json({"error": err.message})
 			return;
@@ -35,7 +35,7 @@ router.get('/:nickname&:password', (req, res, next) => {
 
 		if (!row) {
 			res.json({
-				"message": "failure"
+				"message": "Wrong login or password"
 			});
 		} else {
 			res.json({
@@ -49,15 +49,15 @@ router.get('/:nickname&:password', (req, res, next) => {
 /* POST (create) user */
 router.post("/", jsonParser, (req, res, next) => {
 	let data = {
-		nickname: req.body.nickname,
+		login: req.body.login,
 		email: req.body.email,
 		password: req.body.password
 	}
 
-	let sqlQuerry = `INSERT INTO user (nickname, email, password) VALUES (?, ?, ?)`
-	let params = [data.nickname, data.email, data.password]
+	let sqlQuery = `INSERT INTO user (login, email, password) VALUES (?, ?, ?)`
+	let params = [data.login, data.email, data.password]
 
-	db.run(sqlQuerry, params, function (err, result) {
+	db.run(sqlQuery, params, function (err, result) {
 		if (err) {
 			res.status(400).json({"error": err.message})
 			return;
@@ -73,10 +73,10 @@ router.post("/", jsonParser, (req, res, next) => {
 
 /* DELETE user by id */
 router.delete("/:id", (req, res, next) => {
-	let sqlQuerry = "DELETE FROM user WHERE id = ?"
+	let sqlQuery = "DELETE FROM user WHERE id = ?"
 	let params = [req.params.id]
 
-	db.run(sqlQuerry, params, function (err, result) {
+	db.run(sqlQuery, params, function (err, result) {
 		if (err) {
 			res.status(400).json({"error": err.message})
 			return;
