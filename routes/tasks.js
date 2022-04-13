@@ -4,6 +4,23 @@ let db = require('./../database/database')
 let bodyParser = require("body-parser")
 let jsonParser = bodyParser.json()
 
+router.get('/', (req, res, next) => {
+	let sqlQuerry = 'SELECT * from task'
+	let params = []
+
+	db.all(sqlQuerry, params, (err, rows) => {
+		if (err) {
+			res.status(400).json({"error": err.message})
+			return;
+		}
+
+		res.json({
+			"message": "success",
+			"data": rows
+		});
+	});
+});
+
 /* GET all tasks for particular user. */
 router.get('/:userid', (req, res, next) => {
 	let sqlQuerry = 'SELECT * from task WHERE userid = ?'

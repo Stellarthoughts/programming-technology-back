@@ -3,7 +3,10 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send({express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT'});
+  res.json({
+		"message": "success",
+		"express": "YOUR EXPRESS BACKEND IS CONNECTED TO REACT"
+	});
 });
 
 module.exports = router;
