@@ -47,25 +47,8 @@ router.post("/", jsonParser, (req, res, next) => {
 		userid: req.body.userid,
 	}
 
-	// Update or Insert? Регулируется параметром mode, передаваемые в запросе. 
-	// Id передается в случае UPDATE.
-	let mode = req.body.mode != null ? req.body.mode : 'INSERT';
-	let id = req.body.id != null ? req.body.id : 0;
-
-	let sqlQuerry;
-	let params;
-
-	switch(mode)
-	{
-		case 'INSERT':
-			sqlQuerry = `INSERT INTO task (name, content, userid) VALUES (?, ?, ?)`
-			params = [data.name, data.content, data.userid]
-			break;
-		case 'UPDATE':
-			sqlQuerry = 'UPDATE task SET name = ?, content = ?, userid = ? WHERE id = ?'
-			params = [data.name, data.content, data.userid, id]
-			break;
-	}
+	let sqlQuerry = `INSERT INTO task (name, content, userid) VALUES (?, ?, ?)`;
+	let params = [data.name, data.content, data.userid];
 
 	db.run(sqlQuerry, params, function (err, result) {
 		if (err) {
@@ -76,9 +59,32 @@ router.post("/", jsonParser, (req, res, next) => {
 		res.json({
 			"message": "success",
 			"data": data,
-			// ! В случае UPDATE это поле не имеет смысла - id будет равен 0.
-			// ? Может быть, стоит что-то сделать?
-			"id": this.lastID, 
+			"id": this.lastID,
+		})
+	});
+});
+
+/* PUT (update) task */
+router.put("/", jsonParser, (req, res, next) => {
+	let data = {
+		name: req.body.name,
+		content: req.body.content,
+		userid: req.body.userid,
+		id: req.body.id
+	};
+
+	let sqlQuery = `UPDATE task SET name = ?, content = ?, userid = ? WHERE id = ?`;
+	let params = [data.name, data.content, data.userid, data.id];
+
+	db.run(sqlQuery, params, function (err, result) {
+		if (err) {
+			res.status(400).json({"error": err.message})
+			return;
+		}
+
+		res.json({
+			"message": "success",
+			"data": data,
 		})
 	});
 });
