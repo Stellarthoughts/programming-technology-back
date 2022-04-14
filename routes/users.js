@@ -82,7 +82,10 @@ router.delete("/:id", (req, res, next) => {
 			return;
 		}
 
-		res.json({"message": "deleted", changes: this.changes})
+		res.json({
+			"message": "deleted", 
+			"changes": this.changes
+		})
 	})
 });
 

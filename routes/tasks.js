@@ -4,6 +4,7 @@ let db = require('./../database/database')
 let bodyParser = require("body-parser")
 let jsonParser = bodyParser.json()
 
+/* GET all tasks */
 router.get('/', (req, res, next) => {
 	let sqlQuerry = 'SELECT * from task'
 	let params = []
@@ -100,7 +101,10 @@ router.delete("/:id", (req, res, next) => {
 			return;
 		}
 
-		res.json({"message": "deleted", changes: this.changes})
+		res.json({
+			"message": "deleted", 
+			"changes": this.changes
+		})
 	})
 });
 
