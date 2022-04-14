@@ -47,25 +47,8 @@ router.post("/", jsonParser, (req, res, next) => {
 		userid: req.body.userid,
 	}
 
-	// Update or Insert? Регулируется параметром mode, передаваемые в запросе.
-	// Id передается в случае UPDATE.
-	// let mode = req.body.mode != null ? req.body.mode : 'INSERT';
-	// let id = req.body.id != null ? req.body.id : 0;
-
 	let sqlQuerry = `INSERT INTO task (name, content, userid) VALUES (?, ?, ?)`;
 	let params = [data.name, data.content, data.userid];
-
-	// switch(mode)
-	// {
-	// 	case 'INSERT':
-	// 		sqlQuerry = `INSERT INTO task (name, content, userid) VALUES (?, ?, ?)`
-	// 		params = [data.name, data.content, data.userid]
-	// 		break;
-	// 	case 'UPDATE':
-	// 		sqlQuerry = 'UPDATE task SET name = ?, content = ?, userid = ? WHERE id = ?'
-	// 		params = [data.name, data.content, data.userid, id]
-	// 		break;
-	// }
 
 	db.run(sqlQuerry, params, function (err, result) {
 		if (err) {
@@ -102,7 +85,6 @@ router.put("/", jsonParser, (req, res, next) => {
 		res.json({
 			"message": "success",
 			"data": data,
-			// "id": this.lastID,
 		})
 	});
 });
