@@ -46,6 +46,7 @@ router.post("/", jsonParser, (req, res, next) => {
 		name: req.body.name,
 		content: req.body.content,
 		userid: req.body.userid,
+		id: 0
 	}
 
 	let sqlQuerry = `INSERT INTO task (name, content, userid) VALUES (?, ?, ?)`;
@@ -57,10 +58,11 @@ router.post("/", jsonParser, (req, res, next) => {
 			return;
 		}
 
+		data.id = this.lastID;
+
 		res.json({
 			"message": "success",
 			"data": data,
-			"id": this.lastID,
 		})
 	});
 });
