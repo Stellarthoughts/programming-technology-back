@@ -43,13 +43,14 @@ router.get('/:userid', (req, res, next) => {
 /* POST (create) task */
 router.post("/", jsonParser, (req, res, next) => {
 	let data = {
-		name: req.body.name,
 		content: req.body.content,
 		userid: req.body.userid,
+		done: req.body.done,
+		id: 0
 	}
 
-	let sqlQuerry = `INSERT INTO task (name, content, userid) VALUES (?, ?, ?)`;
-	let params = [data.name, data.content, data.userid];
+	let sqlQuerry = `INSERT INTO task (content, done, userid) VALUES (?, ?, ?)`;
+	let params = [data.content, data.done, data.userid];
 
 	db.run(sqlQuerry, params, function (err, result) {
 		if (err) {
@@ -57,10 +58,11 @@ router.post("/", jsonParser, (req, res, next) => {
 			return;
 		}
 
+		data.id = this.lastID;
+
 		res.json({
 			"message": "success",
 			"data": data,
-			"id": this.lastID,
 		})
 	});
 });
@@ -68,14 +70,14 @@ router.post("/", jsonParser, (req, res, next) => {
 /* PUT (update) task */
 router.put("/", jsonParser, (req, res, next) => {
 	let data = {
-		name: req.body.name,
 		content: req.body.content,
+		done: req.body.done,
 		userid: req.body.userid,
 		id: req.body.id
 	};
 
-	let sqlQuery = `UPDATE task SET name = ?, content = ?, userid = ? WHERE id = ?`;
-	let params = [data.name, data.content, data.userid, data.id];
+	let sqlQuery = `UPDATE task SET content = ?, done = ?, userid = ? WHERE id = ?`;
+	let params = [data.content, data.done, data.userid, data.id];
 
 	db.run(sqlQuery, params, function (err, result) {
 		if (err) {

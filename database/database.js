@@ -18,8 +18,8 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
 			)`);
 			db.run(`CREATE TABLE IF NOT EXISTS task (
 				id INTEGER PRIMARY KEY AUTOINCREMENT,
-				name text,
 				content text,
+				done INTEGER NOT NULL,
 				userid INTEGER NOT NULL,
 				FOREIGN KEY (userid) REFERENCES user(id)
 				)`);
