@@ -23,6 +23,14 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
 				userid INTEGER NOT NULL,
 				FOREIGN KEY (userid) REFERENCES user(id)
 				)`);
+			db.run(`CREATE TABLE IF NOT EXISTS achievement (
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
+				name text NOT NULL, 
+				content text,
+				status INTEGER NOT NULL,  
+				userid INTEGER,
+				FOREIGN KEY (userid) REFERENCES user(id)
+				)`);
 		});
 	}
 });
