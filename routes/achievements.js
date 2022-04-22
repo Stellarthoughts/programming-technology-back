@@ -4,31 +4,6 @@ let db = require('../database/database')
 let bodyParser = require("body-parser")
 let jsonParser = bodyParser.json()
 
-/* POST (create) achievement */
-router.post("/", jsonParser, (req, res, next) => {
-	let data = {
-		name: req.body.name,
-		content: req.body.content,
-		status: req.body.status,
-	}
-
-	let sqlQuerrry = `INSERT INTO achievement (name, content, status) VALUES (?, ?, ? )`;
-	let params = [data.name, data.content, date.status];
-
-	db.run(sqlQuerrry, params, function (err, result) {
-		if (err) {
-			res.status(400).json({"error": err.message})
-			return;
-		}
-
-		res.json({
-			"message": "success",
-			"data": data,
-			"id": this.lastID,
-		})
-	});
-});
-
 /* POST (create) achievement for particular user*/
 router.post("/", jsonParser, (req, res, next) => {
 	let data = {
@@ -36,10 +11,11 @@ router.post("/", jsonParser, (req, res, next) => {
 		content: req.body.content,
 		status: req.body.status,
 		userid: req.body.userid,
+		id: 0
 	}
 
 	let sqlQuerrry = `INSERT INTO achievement (name, content, status, userid) VALUES (?, ?, ?, ?)`;
-	let params = [data.name, data.content, date.status, data.userid];
+	let params = [data.name, data.content, data.status, data.userid];
 
 	db.run(sqlQuerrry, params, function (err, result) {
 		if (err) {
@@ -47,10 +23,11 @@ router.post("/", jsonParser, (req, res, next) => {
 			return;
 		}
 
+		data.id = this.lastID;
+
 		res.json({
 			"message": "success",
 			"data": data,
-			"id": this.lastID,
 		})
 	});
 });
@@ -65,8 +42,8 @@ router.put("/", jsonParser, (req, res, next) => {
 		id: req.body.id
 	};
 
-	let sqlQuerrry = `UPDATE achievement SET name = ?, content = ?, status = ? WHERE userid = ?`;
-	let params = [data.name, data.content, date.status, data.userid, data.id];
+	let sqlQuerrry = `UPDATE achievement SET name = ?, content = ?, status = ?, userid = ? WHERE id = ?`;
+	let params = [data.name, data.content, data.status, data.userid, data.id];
 
 	db.run(sqlQuerrry, params, function (err, result) {
 		if (err) {
@@ -82,7 +59,7 @@ router.put("/", jsonParser, (req, res, next) => {
 });
 
 /* DELETE achievement by userid */
-router.delete("/:userid", (req, res, next) => {
+/*router.delete("/:userid", (req, res, next) => {
 	let sqlQuerrry = "DELETE FROM achievement WHERE userid = ?"
 	let params = [req.params.userid]
 
@@ -97,7 +74,7 @@ router.delete("/:userid", (req, res, next) => {
 			"changes": this.changes
 		})
 	})
-});
+});*/
 
 /* DELETE achievement by id */
 router.delete("/:id", (req, res, next) => {

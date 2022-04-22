@@ -10,7 +10,7 @@ let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
 let dataRouter = require('./routes/data');
 let tasksRouter = require('./routes/tasks');
-let achievementRouter = require('./routes/achievement');
+let achievementsRouter = require('./routes/achievements');
 
 let app = express();
 
@@ -28,7 +28,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/express_backend', dataRouter);
 app.use('/tasks',tasksRouter);
-app.use('/achievement', achievementRouter);
+app.use('/achievements', achievementsRouter);
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
