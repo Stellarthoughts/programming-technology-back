@@ -11,7 +11,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
 		db.serialize(() => {
 			db.run(`CREATE TABLE IF NOT EXISTS user (
 				id INTEGER PRIMARY KEY AUTOINCREMENT,
-				nickname text, 
+				login text, 
 				email text UNIQUE, 
 				password text,  
 				CONSTRAINT email_unique UNIQUE (email)

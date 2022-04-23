@@ -35,7 +35,8 @@ router.get('/:login&:password', (req, res, next) => {
 
 		if (!row) {
 			res.json({
-				"message": "Wrong login or password"
+				"message": "failure",
+				"description": "Wrong login or password"
 			});
 		} else {
 			res.json({
