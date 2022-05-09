@@ -24,7 +24,7 @@ router.get('/', (req, res, next) => {
 
 /* GET authorization by nickname and password */
 router.get('/:login&:password', (req, res, next) => {
-	let sqlQuery = 'SELECT * FROM user WHERE login = ? AND password = ?'
+	let sqlQuery = 'SELECT id, login FROM user WHERE login = ? AND password = ?'
 	let params = [req.params.login, req.params.password]
 
 	db.get(sqlQuery, params, function (err, row) {
@@ -66,7 +66,7 @@ router.post("/", jsonParser, (req, res, next) => {
 
 		res.json({
 			"message": "success",
-			"data": data,
+			"login": data.login,
 			"id": this.lastID,
 		})
 	});
@@ -84,7 +84,7 @@ router.delete("/:id", (req, res, next) => {
 		}
 
 		res.json({
-			"message": "deleted", 
+			"message": "deleted",
 			"changes": this.changes
 		})
 	})
