@@ -16,8 +16,15 @@ class AchievementSystem {
 
 			if(newValue >= 10 && await object.CheckUserDoesntHaveAchievement(userid, types.C_10_TASKS))
 			{
-				console.log("YES! C10");
 				object.UserNewAchievement(userid, types.C_10_TASKS);
+			}
+			if(newValue >= 20 && await object.CheckUserDoesntHaveAchievement(userid, types.C_20_TASKS))
+			{
+				object.UserNewAchievement(userid, types.C_20_TASKS);
+			}
+			if(newValue >= 30 && await object.CheckUserDoesntHaveAchievement(userid, types.C_30_TASKS))
+			{
+				object.UserNewAchievement(userid, types.C_30_TASKS);
 			}
 
 			db.run('UPDATE user SET life_time_tasks = ? WHERE id = ?',[newValue, userid]);
@@ -35,8 +42,15 @@ class AchievementSystem {
 
 			if(newValue >= 5 && await object.CheckUserDoesntHaveAchievement(userid, types.D_5_TASKS))
 			{
-				console.log("YES! D5");
 				object.UserNewAchievement(userid, types.D_5_TASKS);
+			}
+			if(newValue >= 10 && await object.CheckUserDoesntHaveAchievement(userid, types.D_10_TASKS))
+			{
+				object.UserNewAchievement(userid, types.D_10_TASKS);
+			}
+			if(newValue >= 15 && await object.CheckUserDoesntHaveAchievement(userid, types.D_15_TASKS))
+			{
+				object.UserNewAchievement(userid, types.D_15_TASKS);
 			}
 
 			db.run('UPDATE user SET tasks_done = ? WHERE id = ?',[newValue, userid]);
