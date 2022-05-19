@@ -3,6 +3,7 @@ let router = express.Router();
 let db = require('./../database/database')
 let bodyParser = require("body-parser")
 let jsonParser = bodyParser.json()
+let AS = require('./../system/achievements/achievementSystem')
 
 /* GET all tasks */
 router.get('/', (req, res, next) => {
@@ -45,12 +46,11 @@ router.post("/", jsonParser, (req, res, next) => {
 	let data = {
 		content: req.body.content,
 		userid: req.body.userid,
-		done: req.body.done,
 		id: 0
 	}
 
-	let sqlQuerry = `INSERT INTO task (content, done, userid) VALUES (?, ?, ?)`;
-	let params = [data.content, data.done, data.userid];
+	let sqlQuerry = `INSERT INTO task (content, userid) VALUES (?, ?)`;
+	let params = [data.content, data.userid];
 
 	db.run(sqlQuerry, params, function (err, result) {
 		if (err) {
@@ -59,6 +59,7 @@ router.post("/", jsonParser, (req, res, next) => {
 		}
 
 		data.id = this.lastID;
+		AS.UserCreatedNewTask(data.userid);
 
 		res.json({
 			"message": "success",
@@ -84,6 +85,8 @@ router.put("/", jsonParser, (req, res, next) => {
 			res.status(400).json({"error": err.message})
 			return;
 		}
+
+		AS.UserChangedStatusOfTask(data.userid,data.done);
 
 		res.json({
 			"message": "success",

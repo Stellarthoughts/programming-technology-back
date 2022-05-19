@@ -3,6 +3,7 @@ let router = express.Router();
 let db = require('../database/database')
 let bodyParser = require("body-parser")
 let jsonParser = bodyParser.json()
+let AS = require('./../system/achievements/achievementSystem')
 
 /* POST (create) achievement for particular user*/
 router.post("/", jsonParser, (req, res, next) => {
@@ -129,5 +130,15 @@ router.get('/:userid', (req, res, next) => {
 		});
 	});
 });
+
+/* GET new achievements for particular user */
+router.get('/new/:userid', async (req, res, next) => {
+	let newAchievements = await AS.ReturnNewAchievements(req.params.userid);
+	res.json({
+		"message":"success",
+		"data": newAchievements
+	});
+});
+
 
 module.exports = router;

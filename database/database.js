@@ -14,12 +14,14 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
 				login text, 
 				email text UNIQUE, 
 				password text,  
+				life_time_tasks INTEGER NOT NULL DEFAULT 0,
+				tasks_done INTEGER NOT NULL DEFAULT 0,
 				CONSTRAINT email_unique UNIQUE (email)
 			)`);
 			db.run(`CREATE TABLE IF NOT EXISTS task (
 				id INTEGER PRIMARY KEY AUTOINCREMENT,
 				content text,
-				done INTEGER NOT NULL,
+				done INTEGER NOT NULL DEFAULT 0,
 				userid INTEGER NOT NULL,
 				FOREIGN KEY (userid) REFERENCES user(id)
 				)`);
@@ -27,8 +29,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
 				id INTEGER PRIMARY KEY AUTOINCREMENT,
 				name text NOT NULL, 
 				content text,
-				status INTEGER NOT NULL,  
 				userid INTEGER,
+				is_new INTEGER NOT NULL DEFAULT 1,
+				type text NOT NULL DEFAULT 'default',
 				FOREIGN KEY (userid) REFERENCES user(id)
 				)`);
 		});
