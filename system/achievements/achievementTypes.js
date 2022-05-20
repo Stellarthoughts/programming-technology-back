@@ -8,12 +8,12 @@ let achiementTypes = {
 	C_20_TASKS : {
 		name: "20 Tasks Created",
 		content: "Hooray! Your first 20 tasks were created",
-		type: 'C_10_TASKS',
+		type: 'C_20_TASKS',
 	},
 	C_30_TASKS : {
-		name: "20 Tasks Created",
-		content: "Hooray! Your first 20 tasks were created",
-		type: 'C_10_TASKS',
+		name: "30 Tasks Created",
+		content: "Hooray! Your first 30 tasks were created",
+		type: 'C_30_TASKS',
 	},
 	D_5_TASKS: {
 		name: "5 Tasks Done",
@@ -23,12 +23,12 @@ let achiementTypes = {
 	D_10_TASKS: {
 		name: "10 Tasks Done",
 		content: "Now you got whole 10 tasks done. Gratz!",
-		type: 'D_5_TASKS',
+		type: 'D_10_TASKS',
 	},
 	D_15_TASKS: {
 		name: "15 Tasks Done",
 		content: "Now you got whole 15 tasks done. Gratz!",
-		type: 'D_5_TASKS',
+		type: 'D_15_TASKS',
 	}
 }
 

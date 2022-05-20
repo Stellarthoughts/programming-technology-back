@@ -1,6 +1,7 @@
 let express = require('express');
 let router = express.Router();
 let db = require('./../database/database')
+let dbquery = require('./../database/dbquery')
 let bodyParser = require("body-parser")
 let jsonParser = bodyParser.json()
 let AS = require('./../system/achievements/achievementSystem')
@@ -69,7 +70,7 @@ router.post("/", jsonParser, (req, res, next) => {
 });
 
 /* PUT (update) task */
-router.put("/", jsonParser, (req, res, next) => {
+router.put("/", jsonParser, async (req, res, next) => {
 	let data = {
 		content: req.body.content,
 		done: req.body.done,
@@ -77,6 +78,7 @@ router.put("/", jsonParser, (req, res, next) => {
 		id: req.body.id
 	};
 
+	let current = await dbquery('SELECT done FROM task WHERE id = ?',[data.id]);
 	let sqlQuery = `UPDATE task SET content = ?, done = ?, userid = ? WHERE id = ?`;
 	let params = [data.content, data.done, data.userid, data.id];
 
@@ -86,7 +88,10 @@ router.put("/", jsonParser, (req, res, next) => {
 			return;
 		}
 
-		AS.UserChangedStatusOfTask(data.userid,data.done);
+		if(current != null && current[0].done != data.done)
+		{
+			AS.UserChangedStatusOfTask(data.userid,data.done);
+		}
 
 		res.json({
 			"message": "success",

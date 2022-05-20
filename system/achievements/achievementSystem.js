@@ -1,4 +1,5 @@
 const db = require('../../database/database');
+const dbquery = require('../../database/dbquery');
 const types = require('./achievementTypes');
 
 class AchievementSystem {
@@ -12,7 +13,7 @@ class AchievementSystem {
 			if(err != null || result.length === 0)
 				return;
 			
-			let newValue = result[0].life_time_tasks + 1;
+			let newValue = result[0].life_time_tasks + 1
 
 			if(newValue >= 10 && await object.CheckUserDoesntHaveAchievement(userid, types.C_10_TASKS))
 			{
@@ -59,7 +60,9 @@ class AchievementSystem {
 	}
 
 	async CheckUserDoesntHaveAchievement (userid, type) {
-		let res = await this.db_all('SELECT * FROM achievement WHERE userid = ? AND type = ?',[userid, type.type]);
+		console.log("hey");
+		let res = await dbquery('SELECT * FROM achievement WHERE userid = ? AND type = ?',[userid, type.type]);
+		console.log(res);
 		if(res.length === 0)
 			return true;
 		else 
@@ -84,18 +87,9 @@ class AchievementSystem {
 	}
 
 	async ReturnNewAchievements (userid) {
-		let newAchievements = await this.db_all('SELECT * FROM achievement WHERE userid = ? AND is_new = ?',[userid,1]);
+		let newAchievements = await dbquery('SELECT * FROM achievement WHERE userid = ? AND is_new = ?',[userid,1]);
 		this.CheckAchiementsAsOld(newAchievements);
 		return newAchievements;
-	}
-
-	async db_all(query, params){
-    return new Promise(function(resolve,reject){
-        db.all(query, params, function(err,rows){
-           if(err){return reject(err);}
-           resolve(rows);
-         });
-    });
 	}
 }
 
