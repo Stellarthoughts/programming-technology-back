@@ -60,9 +60,7 @@ class AchievementSystem {
 	}
 
 	async CheckUserDoesntHaveAchievement (userid, type) {
-		console.log("hey");
 		let res = await dbquery('SELECT * FROM achievement WHERE userid = ? AND type = ?',[userid, type.type]);
-		console.log(res);
 		if(res.length === 0)
 			return true;
 		else 
